@@ -1,4 +1,5 @@
 from atumm.core.presenters import AbstractPresenter
+
 from atumm.services.user.entrypoints.rest.tokens.responses import (
     AuthenticatedTokensResponse,
 )

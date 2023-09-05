@@ -6,13 +6,28 @@ authors = [
     {name = "Omars", email = "omar@atumm.org"},
 ]
 dependencies = [
-    "pydantic>=1.10,<3.0",
+    "pydantic[email]<2.0.0",
     "atumm-core @ git+https://github.com/atumm-ra/atumm-core.git@dev",
+    "py-bcrypt>=0.4",
+    "injector>=0.21.0",
+    "beanie>=1.21.0",
+    "PyJWT>=2.8.0",
 ]
 requires-python = ">=3.11"
 readme = "README.md"
 license = {text = "MIT"}
 
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.1",
+    "pytest-cov>=4.1.0",
+    "faker>=19.3.1",
+    "mock>=5.1.0",
+    "ssort>=0.11.6",
+    "isort>=5.12.0",
+    "black>=23.7.0",
+    "anyio[asyncio]>=4.0.0",
+]
 [build-system]
 requires = ["setuptools>=61", "wheel"]
 build-backend = "setuptools.build_meta"

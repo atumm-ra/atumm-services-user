@@ -1,7 +1,7 @@
+from atumm.core.usecases import Command, CommandUseCase
 from injector import inject
 from pydantic import EmailStr, Field, validator
 
-from atumm.core.usecases import Command, CommandUseCase
 from atumm.services.user.domain.exceptions import (
     DuplicateEmailOrUsernameException,
     PasswordsDoNotMatchException,
@@ -33,7 +33,6 @@ class RegisterUseCase(CommandUseCase[RegisterCommand]):
         if does_exist:
             raise DuplicateEmailOrUsernameException
 
-        user = await self.user_repo.create(
+        return await self.user_repo.create(
             command.username, command.password1, command.email
         )
-        return user

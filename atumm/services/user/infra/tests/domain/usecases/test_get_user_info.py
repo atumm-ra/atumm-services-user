@@ -18,7 +18,6 @@ class TestGetUserInfoUseCase:
         email = self.faker.email()
         password = self.faker.password()
         user = UserModel(email=email, password=password)
-        user.encrypt_password()
 
         user_repo = AsyncMock()
         user_repo.find_by_email.return_value = user
@@ -29,5 +28,4 @@ class TestGetUserInfoUseCase:
         returned_user = await get_user_info_use_case.execute(get_user_info_query)
 
         user_repo.find_by_email.assert_called_once_with(email)
-        assert returned_user.email == email
-        assert returned_user.is_password_valid(password)
+        assert returned_user == user
