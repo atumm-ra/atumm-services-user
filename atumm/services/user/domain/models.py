@@ -5,8 +5,6 @@ from uuid import UUID, uuid4
 import bcrypt
 from pydantic import BaseModel, EmailStr, Field, validator
 
-from thisapp.config import get_config
-
 
 class StatusEnum(StrEnum):
     ACTIVE = auto()
@@ -44,22 +42,6 @@ class UserModel(BaseModel):
         if len(value) < 8:
             raise ValueError("Password must be at least 8 characters long")
         return value
-
-    def _get_pass_key(self):
-        config = get_config()
-        pass_key = config.PASSWORD_KEY
-        return pass_key
-
-    def encrypt_password(self):
-        pass_key = self._get_pass_key()
-        pass_combination = self.password + pass_key + self.salt
-        self.password = bcrypt.hashpw(pass_combination, self.salt)
-
-    def is_password_valid(self, password: str) -> bool:
-        input_pass_hashed = bcrypt.hashpw(
-            password + self._get_pass_key() + self.salt, self.salt
-        )
-        return self.password == input_pass_hashed
 
     def lock(self):
         self.status = StatusEnum.LOCKED

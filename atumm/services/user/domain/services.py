@@ -13,9 +13,11 @@ class PasswordHasher:
         pass_combination = password + self.password_key
         return hashpw(pass_combination, salt)
 
-    def is_password_valid(self, password: str, salt: str) -> bool:
-        input_pass_hashed = hashpw(password + self.password_key, salt)
-        return self.password == input_pass_hashed
+    def is_password_valid(
+        self, input_password: str, stored_password: str, salt: str
+    ) -> bool:
+        input_pass_hashed = hashpw(input_password + self.password_key, salt)
+        return stored_password == input_pass_hashed
 
     def generate_salt(self) -> str:
         return gensalt()

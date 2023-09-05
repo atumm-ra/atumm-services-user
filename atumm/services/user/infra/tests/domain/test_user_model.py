@@ -16,24 +16,12 @@ class TestUserModel(unittest.TestCase):
             last_name=self.faker.last_name(),
         )
 
-    def test_password_encryption(self):
-        original_password = self.user.password
-        self.user.encrypt_password()
-        self.assertNotEqual(self.user.password, original_password)
-
-    def test_password_validation(self):
-        original_password = self.user.password
-        self.user.encrypt_password()
-        self.assertTrue(self.user.is_password_valid(original_password))
-        self.assertFalse(self.user.is_password_valid(self.faker.password(length=10)))
-
     def test_lock(self):
         self.user.lock()
-        self.assertEqual(self.user.status, StatusEnum.LOCKED)
-
-    def test_is_locked(self):
-        self.user.lock()
         self.assertTrue(self.user.is_locked())
+
+    def test_is_not_locked(self):
+        self.assertFalse(self.user.is_locked())
 
 
 if __name__ == "__main__":

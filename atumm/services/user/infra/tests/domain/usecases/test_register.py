@@ -20,7 +20,6 @@ class TestRegisterUseCase:
         username = self.faker.user_name()
 
         user = UserModel(email=email, password=password, username=username)
-        user.encrypt_password()
 
         user_repo = AsyncMock()
         user_repo.find_by_email.return_value = None
@@ -36,4 +35,3 @@ class TestRegisterUseCase:
         user_repo.create.assert_called_once_with(username, password, email)
         assert created_user.email == email
         assert created_user.username == username
-        assert created_user.is_password_valid(password)

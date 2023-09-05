@@ -2,6 +2,7 @@ from abc import abstractmethod
 from typing import List
 
 from atumm.core.dataproviders.datastore.beanie import BeanieDataProvider
+
 from atumm.services.user.domain.models import UserModel
 
 

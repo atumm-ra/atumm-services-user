@@ -1,14 +1,15 @@
 from typing import Dict, Optional
 
+from atumm.core.usecases import Command, CommandUseCase
 from injector import inject
 
-from atumm.core.usecases import Command, CommandUseCase
 from atumm.services.user.domain.exceptions import (
     AccountLockedException,
     PasswordsDoNotMatchException,
     UserNotFoundException,
 )
 from atumm.services.user.domain.repositories import AbstractUserRepo
+from atumm.services.user.domain.services import PasswordHasher
 from atumm.services.user.infra.auth.tokenizer import Tokenizer
 
 
@@ -20,9 +21,12 @@ class LoginCommand(Command):
 
 class LoginUseCase(CommandUseCase[LoginCommand]):
     @inject
-    def __init__(self, user_repo: AbstractUserRepo, tokenizer: Tokenizer):
+    def __init__(
+        self, user_repo: AbstractUserRepo, tokenizer: Tokenizer, hasher: PasswordHasher
+    ):
         self.repo = user_repo
         self.tokenizer = tokenizer
+        self.hasher = hasher
 
     async def execute(self, command: LoginCommand) -> Dict[str, str]:
         user = await self.repo.find_by_email(email=command.email)
@@ -32,7 +36,9 @@ class LoginUseCase(CommandUseCase[LoginCommand]):
         if user.is_locked():
             raise AccountLockedException()
 
-        if not user.is_password_valid(command.password):
+        if not self.hasher.is_password_valid(
+            command.password, user.password, user.salt
+        ):
             raise PasswordsDoNotMatchException
 
         if user.device_id is None:

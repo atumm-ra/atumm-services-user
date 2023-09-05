@@ -1,8 +1,8 @@
 from typing import Dict
 
+from atumm.core.usecases import Command, CommandUseCase
 from injector import inject
 
-from atumm.core.usecases import Command, CommandUseCase
 from atumm.services.user.domain.exceptions import InvalidRefreshSubject
 from atumm.services.user.infra.auth.tokenizer import Tokenizer
 
