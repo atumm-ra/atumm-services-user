@@ -24,15 +24,14 @@ class UserRepo(AbstractUserRepo):
         try:
             await User.insert_one(user)
         except pymongo.errors.DuplicateKeyError as e:
-            raise DuplicateKeyException(e.details["keyValue"])
+            raise DuplicateKeyException(e.details["keyValue"]) from e
         return user
 
     async def find_by_email(self, email: str) -> User:
         return await User.find_one(User.email == email)
 
     async def find_all(self, start: int = 0, limit: int = 12) -> List[UserModel]:
-        user_list = await User.find().skip(start).to_list(limit)
-        return user_list
+        return await User.find().skip(start).to_list(limit)
 
     async def save(self, user: User) -> None:
         await user.save()
