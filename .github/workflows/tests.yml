@@ -33,7 +33,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pdm sync --dev
+          pdm sync -G dev
 
       - name: Run Tests
         run: |
