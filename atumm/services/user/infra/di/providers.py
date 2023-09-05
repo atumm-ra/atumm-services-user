@@ -14,5 +14,14 @@ class PasswordHasherProvider(Module):
             scope=singleton,
         )
 
+class UserRepoProvider(Module):
+    def configure(self, binder: Binder):
+        binder.bind(
+            interface=AbstractUserRepo,
+            to=UserRepo(self.__injector__.get(PasswordHasher)),
+            scope=singleton,
+        )
 
-user_providers = [PasswordHasherProvider]
+
+
+user_providers = [PasswordHasherProvider, UserRepoProvider]
