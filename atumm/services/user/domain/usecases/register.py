@@ -1,12 +1,11 @@
 from atumm.core.usecases import Command, CommandUseCase
-from injector import inject
-from pydantic import EmailStr, Field, validator
-
 from atumm.services.user.domain.exceptions import (
     DuplicateEmailOrUsernameException,
     PasswordsDoNotMatchException,
 )
 from atumm.services.user.domain.repositories import AbstractUserRepo
+from injector import inject
+from pydantic import EmailStr, Field, validator
 
 
 class RegisterCommand(Command):

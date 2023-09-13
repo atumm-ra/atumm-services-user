@@ -1,8 +1,5 @@
 from typing import List
 
-from fastapi_jwt_auth import AuthJWT
-from injector import inject
-
 from atumm.services.user.dataproviders.beanie.models import User
 from atumm.services.user.domain.usecases.get_user import (
     GetUserInfoQuery,
@@ -18,6 +15,8 @@ from atumm.services.user.entrypoints.rest.users.responses import (
     GetUsersResponse,
     RegisterResponse,
 )
+from fastapi_jwt_auth import AuthJWT
+from injector import inject
 
 
 class UserController:

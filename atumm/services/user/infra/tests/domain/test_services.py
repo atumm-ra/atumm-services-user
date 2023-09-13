@@ -1,8 +1,7 @@
 from unittest.mock import patch
 
-from faker import Faker
-
 from atumm.services.user.domain.services import PasswordHasher
+from faker import Faker
 
 
 class TestPasswordHasher:

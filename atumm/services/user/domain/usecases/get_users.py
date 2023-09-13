@@ -1,10 +1,9 @@
 from typing import List
 
 from atumm.core.usecases import Query, QueryUseCase
-from injector import inject
-
 from atumm.services.user.domain.models import UserModel
 from atumm.services.user.domain.repositories import AbstractUserRepo
+from injector import inject
 
 
 class GetUsersQuery(Query):

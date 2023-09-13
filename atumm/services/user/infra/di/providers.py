@@ -1,9 +1,8 @@
 from atumm.core.infra.config import Config
-from injector import Binder, Module, singleton
-
 from atumm.services.user.dataproviders.beanie.repositories import UserRepo
 from atumm.services.user.domain.repositories import AbstractUserRepo
 from atumm.services.user.domain.services import PasswordHasher
+from injector import Binder, Module, singleton
 
 
 class PasswordHasherProvider(Module):
@@ -14,6 +13,7 @@ class PasswordHasherProvider(Module):
             scope=singleton,
         )
 
+
 class UserRepoProvider(Module):
     def configure(self, binder: Binder):
         binder.bind(
@@ -21,7 +21,6 @@ class UserRepoProvider(Module):
             to=UserRepo(self.__injector__.get(PasswordHasher)),
             scope=singleton,
         )
-
 
 
 user_providers = [PasswordHasherProvider, UserRepoProvider]

@@ -1,5 +1,3 @@
-from injector import inject
-
 from atumm.services.user.domain.usecases.login import LoginCommand, LoginUseCase
 from atumm.services.user.domain.usecases.refresh_token import (
     RefreshTokenCommand,
@@ -13,6 +11,7 @@ from atumm.services.user.entrypoints.rest.tokens.requests import (
 from atumm.services.user.entrypoints.rest.tokens.responses import (
     AuthenticatedTokensResponse,
 )
+from injector import inject
 
 
 class TokensController:

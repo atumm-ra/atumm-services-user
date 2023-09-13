@@ -1,10 +1,9 @@
 from typing import Dict
 
 from atumm.core.usecases import Command, CommandUseCase
-from injector import inject
-
 from atumm.services.user.domain.exceptions import InvalidRefreshSubject
 from atumm.services.user.infra.auth.tokenizer import Tokenizer
+from injector import inject
 
 
 class RefreshTokenCommand(Command):

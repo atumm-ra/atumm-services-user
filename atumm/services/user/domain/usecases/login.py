@@ -1,8 +1,6 @@
 from typing import Dict, Optional
 
 from atumm.core.usecases import Command, CommandUseCase
-from injector import inject
-
 from atumm.services.user.domain.exceptions import (
     AccountLockedException,
     PasswordsDoNotMatchException,
@@ -11,6 +9,7 @@ from atumm.services.user.domain.exceptions import (
 from atumm.services.user.domain.repositories import AbstractUserRepo
 from atumm.services.user.domain.services import PasswordHasher
 from atumm.services.user.infra.auth.tokenizer import Tokenizer
+from injector import inject
 
 
 class LoginCommand(Command):

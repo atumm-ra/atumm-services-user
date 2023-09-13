@@ -1,13 +1,12 @@
 from unittest.mock import AsyncMock, MagicMock
 
 import pytest
-from faker import Faker
-
 from atumm.services.user.domain.models import UserModel
 from atumm.services.user.domain.usecases.get_user import (
     GetUserInfoQuery,
     GetUserInfoUseCase,
 )
+from faker import Faker
 
 
 class TestGetUserInfoUseCase:

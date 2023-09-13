@@ -1,9 +1,8 @@
 from atumm.core.usecases import Query, QueryUseCase
-from injector import inject
-from pydantic import EmailStr
-
 from atumm.services.user.dataproviders.beanie.models import User
 from atumm.services.user.domain.repositories import AbstractUserRepo
+from injector import inject
+from pydantic import EmailStr
 
 
 class GetUserInfoQuery(Query):

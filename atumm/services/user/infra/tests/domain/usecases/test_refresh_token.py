@@ -1,13 +1,12 @@
 import pytest
-from faker import Faker
-from mock import Mock
-
 from atumm.services.user.domain.exceptions import InvalidRefreshSubject
 from atumm.services.user.domain.usecases.refresh_token import (
     RefreshTokenCommand,
     RefreshTokenUseCase,
 )
 from atumm.services.user.infra.auth.tokenizer import Tokenizer
+from faker import Faker
+from mock import Mock
 
 
 class TestRefreshTokenUseCase:

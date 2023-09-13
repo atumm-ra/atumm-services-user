@@ -2,12 +2,11 @@ from datetime import datetime, timedelta
 from typing import Any, Mapping
 
 import jwt
-from jwt import PyJWT
-
 from atumm.services.user.domain.exceptions import (
     DecodeTokenException,
     ExpiredTokenException,
 )
+from jwt import PyJWT
 
 jwt_obj = PyJWT()
 jwt_obj.options["verify_aud"] = False

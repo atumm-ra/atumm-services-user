@@ -1,7 +1,4 @@
 from atumm.core.entrypoints.rest.responses import RuntimeExceptionResponse
-from classy_fastapi import Routable, post
-from injector import inject
-
 from atumm.services.user.entrypoints.rest.tokens.controllers import TokensController
 from atumm.services.user.entrypoints.rest.tokens.requests import (
     LoginRequest,
@@ -10,6 +7,8 @@ from atumm.services.user.entrypoints.rest.tokens.requests import (
 from atumm.services.user.entrypoints.rest.tokens.responses import (
     AuthenticatedTokensResponse,
 )
+from classy_fastapi import Routable, post
+from injector import inject
 
 
 class TokensRouter(Routable):

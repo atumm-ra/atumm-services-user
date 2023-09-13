@@ -7,7 +7,6 @@ authors = [
 ]
 dependencies = [
     "pydantic<2.0.0",
-    "atumm-core @ git+https://github.com/atumm-ra/atumm-core.git@dev",
     "py-bcrypt>=0.4",
     "injector>=0.21.0",
     "beanie>=1.21.0",
