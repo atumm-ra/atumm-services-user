@@ -1,6 +1,6 @@
 from typing import Dict
 
-from atumm.core.usecases import Command, CommandUseCase
+from atumm.core.types import Command, CommandUseCase
 from atumm.services.user.domain.exceptions import InvalidRefreshSubject
 from atumm.services.user.infra.auth.tokenizer import Tokenizer
 from injector import inject

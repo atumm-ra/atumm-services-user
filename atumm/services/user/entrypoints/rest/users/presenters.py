@@ -1,4 +1,4 @@
-from atumm.core.presenters import AbstractPresenter
+from atumm.core.types import AbstractPresenter
 from atumm.services.user.domain.models import UserModel
 from atumm.services.user.entrypoints.rest.users.responses import RegisterResponse
 

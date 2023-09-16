@@ -1,6 +1,6 @@
 from typing import Dict, Optional
 
-from atumm.core.usecases import Command, CommandUseCase
+from atumm.core.types import Command, CommandUseCase
 from atumm.services.user.domain.exceptions import (
     AccountLockedException,
     PasswordsDoNotMatchException,

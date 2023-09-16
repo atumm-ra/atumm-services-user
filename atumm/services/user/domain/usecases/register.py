@@ -1,4 +1,4 @@
-from atumm.core.usecases import Command, CommandUseCase
+from atumm.core.types import Command, CommandUseCase
 from atumm.services.user.domain.exceptions import (
     DuplicateEmailOrUsernameException,
     PasswordsDoNotMatchException,

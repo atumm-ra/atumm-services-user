@@ -1,6 +1,6 @@
 from typing import List
 
-from atumm.core.usecases import Query, QueryUseCase
+from atumm.core.types import Query, QueryUseCase
 from atumm.services.user.domain.models import UserModel
 from atumm.services.user.domain.repositories import AbstractUserRepo
 from injector import inject
