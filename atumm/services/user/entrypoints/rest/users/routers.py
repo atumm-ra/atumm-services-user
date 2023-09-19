@@ -7,18 +7,19 @@ from atumm.services.user.entrypoints.rest.users.responses import (
     GetUsersResponse,
     RegisterResponse,
 )
-from classy_fastapi import Routable, get, post
 from fastapi import Query
 from injector import inject
+from atumm.extensions.fastapi.routable import bind_router, Routable
 
+router = APIRouter(prefix="/users")
 
+@bind_router(router)
 class UserRouter(Routable):
     @inject
     def __init__(self, controller: UserController):
-        super().__init__(prefix="/users")
         self.controller = controller
 
-    @post(
+    @router.post(
         "/",
         response_model=RegisterResponse,
         status_code=201,
@@ -30,7 +31,7 @@ class UserRouter(Routable):
     async def create_user(self, command: RegisterCommand):
         return await self.controller.register_action(command)
 
-    @get(
+    @router.get(
         "/",
         response_model=List[GetUsersResponse],
         response_model_exclude={"id"},

@@ -1,4 +1,5 @@
 from atumm.core.entrypoints.rest.responses import RuntimeExceptionResponse
+from atumm.extensions.fastapi import Routable, bind_router
 from atumm.services.user.entrypoints.rest.tokens.controllers import TokensController
 from atumm.services.user.entrypoints.rest.tokens.requests import (
     LoginRequest,
@@ -7,17 +8,18 @@ from atumm.services.user.entrypoints.rest.tokens.requests import (
 from atumm.services.user.entrypoints.rest.tokens.responses import (
     AuthenticatedTokensResponse,
 )
-from classy_fastapi import Routable, post
 from injector import inject
 
+router = APIRouter(prefix="/tokens")
 
+
+@bind_router(router)
 class TokensRouter(Routable):
     @inject
     def __init__(self, controller: TokensController):
-        super().__init__(prefix="/tokens")
         self.controller = controller
 
-    @post(
+    @router.post(
         "/refresh",
         responses={
             "200": {"model": AuthenticatedTokensResponse},
@@ -30,7 +32,7 @@ class TokensRouter(Routable):
     ) -> AuthenticatedTokensResponse:
         return await self.controller.refresh_token(request)
 
-    @post(
+    @router.post(
         "/access",
         responses={
             "200": {"model": AuthenticatedTokensResponse},
