@@ -1,4 +1,4 @@
-from atumm.core.infra.config import Config, configure
+from atumm.atumm.extensions.config import Config, configure
 from pydantic.fields import Field
 
 
