@@ -1,10 +1,9 @@
-from atumm.services.user.dataproviders.beanie.common.mixins import TimestampMixin
 from atumm.services.user.domain.models import UserModel
 from beanie import Document
 from pymongo import IndexModel
 
 
-class User(Document, UserModel, TimestampMixin):
+class User(Document, UserModel):
     class Beanie:
         document_model_name = "users"
 

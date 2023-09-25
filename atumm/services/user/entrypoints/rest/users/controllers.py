@@ -1,5 +1,8 @@
-from typing import List
+from typing import List, Optional
 
+from atumm.core.exceptions import RuntimeException
+from atumm.extensions.fastapi.schemas.current_user import CurrentUser
+from atumm.extensions.services.tokenizer.base import BaseTokenizer
 from atumm.services.user.dataproviders.beanie.models import User
 from atumm.services.user.domain.usecases.get_user import (
     GetUserInfoQuery,
@@ -15,7 +18,6 @@ from atumm.services.user.entrypoints.rest.users.responses import (
     GetUsersResponse,
     RegisterResponse,
 )
-from fastapi_jwt_auth import AuthJWT
 from injector import inject
 
 
@@ -48,19 +50,25 @@ class UserController:
         get_user_info_usecase: GetUserInfoUseCase,
         get_users_usecase: GetUsersUseCase,
         presenter: UserPresenter,
+        tokenizer: BaseTokenizer,
     ):
         self.register_usecase = register_usecase
         self.get_user_info_usecase = get_user_info_usecase
         self.get_users_usecase = get_users_usecase
         self.presenter = presenter
+        self.tokenizer = tokenizer
 
     async def register_action(self, command: RegisterCommand) -> RegisterResponse:
         user = await self.register_usecase.execute(command)
         return self.presenter.present(user)
 
-    async def get_user_info_action(self, auth: AuthJWT) -> RegisterResponse:
+    async def get_user_info_action(
+        self, user: Optional[CurrentUser]
+    ) -> RegisterResponse:
+        if not user:
+            raise RuntimeException(401, "Authentication failed")
         return await self.presenter.present(
-            self.get_user_info_usecase.execute(GetUserInfoQuery(auth=auth.data["sub"]))
+            self.get_user_info_usecase.execute(GetUserInfoQuery(email=user.email))
         )
 
     async def get_user_list_action(

@@ -5,7 +5,7 @@ from atumm.services.user.domain.exceptions import (
 )
 from atumm.services.user.domain.repositories import AbstractUserRepo
 from injector import inject
-from pydantic import EmailStr, Field, validator
+from pydantic import EmailStr, Field, FieldValidationInfo, field_validator
 
 
 class RegisterCommand(Command):
@@ -14,11 +14,28 @@ class RegisterCommand(Command):
     password2: str = Field(..., description="Password2")
     username: str = Field(..., description="username")
 
-    @validator("password2")
-    def passwords_match(cls, v, values, **kwargs):
-        if "password1" in values and v != values["password1"]:
-            raise PasswordsDoNotMatchException
-        return v
+    @field_validator("password2", mode="before")
+    def passwords_match(cls, password2: str, info: FieldValidationInfo) -> str:
+        password1 = info.data.get("password1")
+        if password1 is None:
+            raise ValueError("password1 is required.")
+        if password1 != password2:
+            raise PasswordsDoNotMatchException("Passwords do not match!")
+        return password2
+
+    @field_validator("password1")
+    def validate_password(cls, password: str, info: FieldValidationInfo) -> str:
+        if password.__len__() < 8:
+            raise ValueError("Password must be at least 8 characters long")
+        if not any(char.isdigit() for char in password):
+            raise ValueError("Password must contain at least one digit.")
+        if not any(char.isupper() for char in password):
+            raise ValueError("Password must contain at least one uppercase letter.")
+        if not any(char.islower() for char in password):
+            raise ValueError("Password must contain at least one lowercase letter.")
+        if not any(char in "!@#$%^&*()_+-=[]{}|;:,.<>?/~`" for char in password):
+            raise ValueError("Password must contain at least one special character.")
+        return password
 
 
 class RegisterUseCase(CommandUseCase[RegisterCommand]):

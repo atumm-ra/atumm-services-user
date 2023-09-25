@@ -1,10 +1,10 @@
 from unittest.mock import AsyncMock
 
 import pytest
+from atumm.extensions.services.tokenizer.jwt_tokenizer import JWTTokenizer
 from atumm.services.user.domain.models import UserModel
 from atumm.services.user.domain.services import PasswordHasher
 from atumm.services.user.domain.usecases.login import LoginCommand, LoginUseCase
-from atumm.services.user.infra.auth.tokenizer import Tokenizer
 from faker import Faker
 
 
@@ -32,7 +32,7 @@ class TestLoginUseCase:
             email=email, password=password, device_id=device_id
         )
         login_use_case = LoginUseCase(
-            user_repo, Tokenizer(self.faker.word(), "HS256"), hasher
+            user_repo, JWTTokenizer(self.faker.word(), 3600), hasher
         )
 
         tokens = await login_use_case.execute(login_command)

@@ -26,7 +26,7 @@ class UserRepo(AbstractUserRepo):
         return user
 
     async def find_by_email(self, email: str) -> User:
-        return await User.find_one(User.email == email)
+        return await User.find_one({"email": email})
 
     async def find_all(self, start: int = 0, limit: int = 12) -> List[UserModel]:
         return await User.find().skip(start).to_list(limit)

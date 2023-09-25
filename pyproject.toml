@@ -6,11 +6,10 @@ authors = [
     {name = "Omars", email = "omar@atumm.org"},
 ]
 dependencies = [
-    "pydantic<2.0.0",
+    "pydantic>=2.3.0",
     "py-bcrypt>=0.4",
     "injector>=0.21.0",
     "beanie>=1.21.0",
-    "PyJWT<2.0.0,>=1.7.1",
 ]
 requires-python = ">=3.11"
 readme = "README.md"
@@ -26,6 +25,7 @@ dev = [
     "isort>=5.12.0",
     "black>=23.7.0",
     "anyio[asyncio]>=4.0.0",
+    "bump-pydantic>=0.7.0",
 ]
 [build-system]
 requires = ["setuptools>=61", "wheel"]

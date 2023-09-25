@@ -1,10 +1,10 @@
 import pytest
+from atumm.extensions.services.tokenizer.jwt_tokenizer import JWTTokenizer
 from atumm.services.user.domain.exceptions import InvalidRefreshSubject
 from atumm.services.user.domain.usecases.refresh_token import (
     RefreshTokenCommand,
     RefreshTokenUseCase,
 )
-from atumm.services.user.infra.auth.tokenizer import Tokenizer
 from faker import Faker
 from mock import Mock
 
@@ -17,7 +17,7 @@ class TestRefreshTokenUseCase:
         token = self.faker.sha256()
         refresh_token = self.faker.sha256()
 
-        tokenizer = Tokenizer(self.faker.word(), "HS256")
+        tokenizer = JWTTokenizer(self.faker.word(), 25)
         tokenizer.decode = Mock(
             return_value={"sub": "refresh"}
         )  # Mocking a valid refresh token subject
@@ -37,7 +37,7 @@ class TestRefreshTokenUseCase:
         token = self.faker.sha256()
         refresh_token = self.faker.sha256()
 
-        tokenizer = Tokenizer(self.faker.word(), "HS256")
+        tokenizer = JWTTokenizer(self.faker.word(), "HS256")
         tokenizer.decode = Mock(
             return_value={"sub": "invalid"}
         )  # Mocking an invalid refresh token subject

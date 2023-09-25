@@ -1,5 +1,5 @@
 from atumm.core.entrypoints.rest.responses import RuntimeExceptionResponse
-from atumm.extensions.fastapi import Routable, bind_router
+from atumm.extensions.di.resolver import LocalDepends
 from atumm.services.user.entrypoints.rest.tokens.controllers import TokensController
 from atumm.services.user.entrypoints.rest.tokens.requests import (
     LoginRequest,
@@ -8,16 +8,19 @@ from atumm.services.user.entrypoints.rest.tokens.requests import (
 from atumm.services.user.entrypoints.rest.tokens.responses import (
     AuthenticatedTokensResponse,
 )
+from fastapi.routing import APIRouter
+from fastapi_restful.cbv import cbv
+from fastapi_restful.inferring_router import InferringRouter
 from injector import inject
 
 router = APIRouter(prefix="/tokens")
 
 
-@bind_router(router)
-class TokensRouter(Routable):
-    @inject
-    def __init__(self, controller: TokensController):
-        self.controller = controller
+@cbv(router)
+class TokensRouter:
+    @property
+    def controller(self) -> TokensController:
+        return LocalDepends(TokensController)
 
     @router.post(
         "/refresh",
@@ -42,3 +45,6 @@ class TokensRouter(Routable):
     )
     async def login(self, request: LoginRequest) -> AuthenticatedTokensResponse:
         return await self.controller.login(request)
+
+
+tokens_router = router

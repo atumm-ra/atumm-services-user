@@ -1,8 +1,8 @@
 from typing import Dict
 
 from atumm.core.types import Command, CommandUseCase
+from atumm.extensions.services.tokenizer.base import BaseTokenizer
 from atumm.services.user.domain.exceptions import InvalidRefreshSubject
-from atumm.services.user.infra.auth.tokenizer import Tokenizer
 from injector import inject
 
 
@@ -13,7 +13,7 @@ class RefreshTokenCommand(Command):
 
 class RefreshTokenUseCase(CommandUseCase[RefreshTokenCommand]):
     @inject
-    def __init__(self, tokenizer: Tokenizer):
+    def __init__(self, tokenizer: BaseTokenizer):
         self.tokenizer = tokenizer
 
     async def execute(self, command: RefreshTokenCommand) -> Dict[str, str]:

@@ -3,7 +3,7 @@ from typing import Optional
 from uuid import UUID, uuid4
 
 import bcrypt
-from pydantic import BaseModel, EmailStr, Field, validator
+from pydantic import BaseModel, ConfigDict, EmailStr, Field, field_validator
 
 
 class StatusEnum(StrEnum):
@@ -13,9 +13,7 @@ class StatusEnum(StrEnum):
 
 
 class UserModel(BaseModel):
-    class Config:
-        bson_encoders: dict = {UUID: str}
-        arbitrary_types_allowed: bool = True
+    model_config = ConfigDict()
 
     id: UUID = Field(default_factory=uuid4, primary_key=True)
     email: EmailStr = Field(str)
@@ -37,7 +35,8 @@ class UserModel(BaseModel):
     )
     device_id: Optional[str] = Field(None)
 
-    @validator("password")
+    @field_validator("password")
+    @classmethod
     def validate_password(cls, value: str) -> str:
         if len(value) < 8:
             raise ValueError("Password must be at least 8 characters long")
