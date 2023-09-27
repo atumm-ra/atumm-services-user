@@ -1,11 +1,11 @@
 from abc import abstractmethod
 from typing import List
 
-from atumm.core.dataproviders.datastore.beanie import BeanieDataProvider
+from atumm.core.types import DataProvider
 from atumm.services.user.domain.models import UserModel
 
 
-class AbstractUserRepo(BeanieDataProvider[UserModel]):
+class AbstractUserRepo(DataProvider):
     @abstractmethod
     async def create(self, username: str, password: str, email: str) -> UserModel:
         pass
