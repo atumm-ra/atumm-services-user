@@ -11,7 +11,6 @@ from atumm.services.user.entrypoints.rest.users.responses import (
 from fastapi import Query
 from fastapi.routing import APIRouter
 from fastapi_restful.cbv import cbv
-from injector import inject
 
 router = APIRouter(prefix="/users")
 

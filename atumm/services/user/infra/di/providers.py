@@ -2,7 +2,7 @@ from atumm.extensions.config import Config
 from atumm.services.user.dataproviders.beanie.repositories import UserRepo
 from atumm.services.user.domain.repositories import AbstractUserRepo
 from atumm.services.user.domain.services import PasswordHasher
-from injector import Binder, Module, provider, singleton
+from injector import Module, provider, singleton
 
 
 class PasswordHasherProvider(Module):

@@ -10,8 +10,6 @@ from atumm.services.user.entrypoints.rest.tokens.responses import (
 )
 from fastapi.routing import APIRouter
 from fastapi_restful.cbv import cbv
-from fastapi_restful.inferring_router import InferringRouter
-from injector import inject
 
 router = APIRouter(prefix="/tokens")
 

@@ -1,6 +1,6 @@
 import unittest
 
-from atumm.services.user.domain.models import StatusEnum, UserModel
+from atumm.services.user.domain.models import UserModel
 from faker import Faker
 
 
