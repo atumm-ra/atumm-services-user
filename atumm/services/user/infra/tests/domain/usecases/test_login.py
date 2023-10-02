@@ -2,7 +2,7 @@ from unittest.mock import AsyncMock
 
 import pytest
 from atumm.extensions.services.tokenizer.jwt_tokenizer import JWTTokenizer
-from atumm.services.user.domain.models import UserModel
+from atumm.services.user.domain.entities import User
 from atumm.services.user.domain.services import PasswordHasher
 from atumm.services.user.domain.usecases.login import LoginCommand, LoginUseCase
 from faker import Faker
@@ -18,7 +18,7 @@ class TestLoginUseCase:
         device_id = self.faker.uuid4()
         hasher = PasswordHasher("pass_key")
         salt = hasher.generate_salt()
-        user = UserModel(
+        user = User(
             email=email,
             password=hasher.hash_password(password, salt),
             device_id=device_id,

@@ -7,7 +7,7 @@ from atumm.services.user.domain.exceptions import (
     PasswordsDoNotMatchException,
     UserNotFoundException,
 )
-from atumm.services.user.domain.repositories import AbstractUserRepo
+from atumm.services.user.domain.repositories import UserRepositoryInterface
 from atumm.services.user.domain.services import PasswordHasher
 from injector import inject
 
@@ -22,7 +22,7 @@ class LoginUseCase(CommandUseCase[LoginCommand]):
     @inject
     def __init__(
         self,
-        user_repo: AbstractUserRepo,
+        user_repo: UserRepositoryInterface,
         tokenizer: BaseTokenizer,
         hasher: PasswordHasher,
     ):

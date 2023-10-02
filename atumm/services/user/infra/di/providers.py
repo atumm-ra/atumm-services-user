@@ -1,6 +1,6 @@
 from atumm.extensions.config import Config
 from atumm.services.user.dataproviders.beanie.repositories import UserRepo
-from atumm.services.user.domain.repositories import AbstractUserRepo
+from atumm.services.user.domain.repositories import UserRepositoryInterface
 from atumm.services.user.domain.services import PasswordHasher
 from injector import Module, provider, singleton
 
@@ -15,7 +15,7 @@ class PasswordHasherProvider(Module):
 class UserRepoProvider(Module):
     @provider
     @singleton
-    def provide(self, hasher: PasswordHasher) -> AbstractUserRepo:
+    def provide(self, hasher: PasswordHasher) -> UserRepositoryInterface:
         return UserRepo(hasher)
 
 

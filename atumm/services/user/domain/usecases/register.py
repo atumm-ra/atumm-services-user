@@ -3,7 +3,7 @@ from atumm.services.user.domain.exceptions import (
     DuplicateEmailOrUsernameException,
     PasswordsDoNotMatchException,
 )
-from atumm.services.user.domain.repositories import AbstractUserRepo
+from atumm.services.user.domain.repositories import UserRepositoryInterface
 from injector import inject
 from pydantic import EmailStr, Field, FieldValidationInfo, field_validator
 
@@ -40,7 +40,7 @@ class RegisterCommand(Command):
 
 class RegisterUseCase(CommandUseCase[RegisterCommand]):
     @inject
-    def __init__(self, user_repo: AbstractUserRepo):
+    def __init__(self, user_repo: UserRepositoryInterface):
         self.user_repo = user_repo
 
     async def execute(self, command: RegisterCommand):

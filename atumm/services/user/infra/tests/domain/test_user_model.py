@@ -1,13 +1,13 @@
 import unittest
 
-from atumm.services.user.domain.models import UserModel
+from atumm.services.user.domain.entities import User
 from faker import Faker
 
 
 class TestUserModel(unittest.TestCase):
     def setUp(self):
         self.faker = Faker()
-        self.user = UserModel(
+        self.user = User(
             email=self.faker.email(),
             password=self.faker.password(length=10),
             username=self.faker.user_name(),

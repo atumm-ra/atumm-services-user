@@ -1,7 +1,7 @@
 from unittest.mock import AsyncMock
 
 import pytest
-from atumm.services.user.domain.models import UserModel
+from atumm.services.user.domain.entities import User
 from atumm.services.user.domain.usecases.get_user import (
     GetUserInfoQuery,
     GetUserInfoUseCase,
@@ -16,7 +16,7 @@ class TestGetUserInfoUseCase:
     async def test_get_user_info(self):
         email = self.faker.email()
         password = self.faker.password()
-        user = UserModel(email=email, password=password)
+        user = User(email=email, password=password)
 
         user_repo = AsyncMock()
         user_repo.find_by_email.return_value = user

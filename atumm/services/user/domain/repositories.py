@@ -1,23 +1,18 @@
 from abc import abstractmethod
-from typing import List
+from typing import List, Protocol
 
-from atumm.core.types import DataProvider
-from atumm.services.user.domain.models import UserModel
+from atumm.services.user.domain.entities import User
 
 
-class AbstractUserRepo(DataProvider):
-    @abstractmethod
-    async def create(self, username: str, password: str, email: str) -> UserModel:
-        pass
+class UserRepositoryInterface(Protocol):
+    async def create(self, username: str, password: str, email: str) -> User:
+        ...
 
-    @abstractmethod
-    async def find_by_email(self, email: str) -> UserModel:
-        pass
+    async def find_by_email(self, email: str) -> User:
+        ...
 
-    @abstractmethod
-    async def find_all(self, start: int = 0, limit: int = 12) -> List[UserModel]:
-        pass
+    async def find_all(self, start: int = 0, limit: int = 12) -> List[User]:
+        ...
 
-    @abstractmethod
-    async def save(self, user: UserModel) -> None:
-        pass
+    async def save(self, user: User) -> None:
+        ...

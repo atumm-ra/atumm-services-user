@@ -12,7 +12,7 @@ class StatusEnum(StrEnum):
     DELETED = auto()
 
 
-class UserModel(BaseModel):
+class User(BaseModel):
     model_config = ConfigDict()
 
     id: UUID = Field(default_factory=uuid4, primary_key=True)

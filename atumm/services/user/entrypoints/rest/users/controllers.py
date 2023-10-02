@@ -3,7 +3,7 @@ from typing import List, Optional
 from atumm.core.exceptions import RuntimeException
 from atumm.extensions.fastapi.schemas.current_user import CurrentUser
 from atumm.extensions.services.tokenizer.base import BaseTokenizer
-from atumm.services.user.dataproviders.beanie.models import User
+from atumm.services.user.dataproviders.beanie.entities import UserDocument
 from atumm.services.user.domain.usecases.get_user import (
     GetUserInfoQuery,
     GetUserInfoUseCase,
@@ -33,10 +33,10 @@ class UserController:
         self.get_user_info_usecase = get_user_info_usecase
         self.get_users_usecase = get_users_usecase
 
-    async def register_action(self, command: RegisterCommand) -> User:
+    async def register_action(self, command: RegisterCommand) -> UserDocument:
         return await self.register_usecase.execute(command)
 
-    async def get_user_action(self, start: int, limit: int) -> List[User]:
+    async def get_user_action(self, start: int, limit: int) -> List[UserDocument]:
         return await self.get_users_usecase.execute(
             GetUsersQuery(limit=limit, start=start)
         )
