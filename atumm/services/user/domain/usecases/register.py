@@ -1,3 +1,4 @@
+from __future__ import annotations
 from atumm.core.types import Command, CommandUseCase
 from atumm.services.user.domain.exceptions import (
     DuplicateEmailOrUsernameException,
@@ -5,7 +6,7 @@ from atumm.services.user.domain.exceptions import (
 )
 from atumm.services.user.domain.repositories import UserRepositoryInterface
 from injector import inject
-from pydantic import EmailStr, Field, FieldValidationInfo, field_validator
+from pydantic import EmailStr, Field, FieldValidationInfo, model_validator
 
 
 class RegisterCommand(Command):
@@ -14,17 +15,17 @@ class RegisterCommand(Command):
     password2: str = Field(..., description="Password2")
     username: str = Field(..., description="username")
 
-    @field_validator("password2", mode="before")
-    def passwords_match(cls, password2: str, info: FieldValidationInfo) -> str:
-        password1 = info.data.get("password1")
-        if password1 is None:
+    @model_validator(mode='after')
+    def passwords_match(self) -> RegisterCommand:
+        if self.password1 is None:
             raise ValueError("password1 is required.")
-        if password1 != password2:
+        if self.password1 != self.password2:
             raise PasswordsDoNotMatchException("Passwords do not match!")
-        return password2
+        return self
 
-    @field_validator("password1")
-    def validate_password(cls, password: str, info: FieldValidationInfo) -> str:
+    @model_validator(mode="after")
+    def validate_password(self) -> User:
+        password = self.password1
         if password.__len__() < 8:
             raise ValueError("Password must be at least 8 characters long")
         if not any(char.isdigit() for char in password):
@@ -33,9 +34,9 @@ class RegisterCommand(Command):
             raise ValueError("Password must contain at least one uppercase letter.")
         if not any(char.islower() for char in password):
             raise ValueError("Password must contain at least one lowercase letter.")
-        if not any(char in "!@#$%^&*()_+-=[]{}|;:,.<>?/~`" for char in password):
+        if all(char not in "!@#$%^&*()_+-=[]{}|;:,.<>?/~`" for char in password):
             raise ValueError("Password must contain at least one special character.")
-        return password
+        return self
 
 
 class RegisterUseCase(CommandUseCase[RegisterCommand]):
